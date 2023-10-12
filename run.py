@@ -49,6 +49,10 @@ def register():
         if request.form["user"]=="":
             flash("We need a user name")
             return render_template("register.html")
+
+        if request.form["password1"]=="":
+            flash("We need a password")
+            return render_template("register.html")
         
         if request.form["password1"]!=request.form["password2"]:
             flash("Passwords not correspondig")
