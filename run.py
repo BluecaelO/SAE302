@@ -5,7 +5,6 @@ from package.db_config import *
 ## autre module
 import secrets
 
-#hello world
 app = Flask(__name__)
 
 app.secret_key = secrets.token_hex()
