@@ -43,13 +43,12 @@ def creatuser(user,password):
             PASSWORD '{password}';
 
             
-            CREATE TABLE IF NOT EXISTS "{user+"_vault"}" (
+            CREATE TABLE IF NOT EXISTS {user+"_vault"} (
                 pass_name VARCHAR(255) PRIMARY KEY,
                 login VARCHAR(255),
                 password VARCHAR(255),
-                FOREIGN KEY (user_id) REFERENCES users(user_id)
+                site VARCHAR(255)
             );
-        
 
             ALTER TABLE IF EXISTS "{user + "_vault"}"
             OWNER to "{user}";
@@ -92,7 +91,7 @@ def get_pwd_list():
     if user:
         try:
             cursor = conn.cursor()
-            query = f"SELECT pwdname, pwdid FROM {user + 'tbl'}"
+            query = f"SELECT pwdname, pwdid FROM {user + '_vault'}"
 
             cursor.execute(query)
             rows = cursor.fetchall()
