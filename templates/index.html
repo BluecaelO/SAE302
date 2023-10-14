@@ -64,9 +64,9 @@
                       <a class="github-button" href="#" data-color-scheme="no-preference: dark; light: light; dark: light;" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star themesberg/windster-tailwind-css-dashboard on GitHub">Star</a>
                    </div>
                 </div>
-                <a href="#" class="hidden sm:inline-flex ml-5 text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
+                <a href="login.html" class="hidden sm:inline-flex ml-5 text-white bg-[#434C5E] hover:bg-[#2E3440] focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center items-center mr-3">
                   <i class="fa-solid fa-right-from-bracket pr-2" style="color: #ffffff;"></i>
-                   Disconnect
+                   Disconnect 
                 </a>
              </div>
           </div>
@@ -147,8 +147,9 @@
              <div class="pt-6 px-4">
                 <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
                    <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 lg:h-[814px]  overflow-hidden">
-                      <div class="flex items-center justify-between mb-4">
+                      <div class="flex items-center justify-between ">
                          <h3 class="text-xl font-bold leading-none text-gray-900">Passwords list</h3>
+                         <button id="add_password" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"><i class="fa-solid fa-plus pr-2" style="color: #ffffff;"></i> Add password</button>
                       </div>
                       <div class="flow-root">
                          <ul role="list" class="divide-y divide-gray-200">
@@ -156,9 +157,9 @@
                            {% for pwd in pwd_list %}
                               <li class="py-3 sm:py-4">
                                  <div class="flex items-center space-x-4">
-                                    <div class="flex-shrink-0">
-                                       <img class="h-8 w-8 rounded-full" src="https://demo.themesberg.com/windster/images/users/neil-sims.png" alt="Neil image">
-                                    </div>
+                                    <div class="w-10 h-10 bg-sky-300 rounded-full  text-center flex flex-col justify-center">
+                                       <p class="text-[20px] font-semibold uppercase">{{ pwd[0][0] }}</p>
+                                   </div>
                                     <div class="flex-1 min-w-0">
                                        <p class="text-sm font-medium text-gray-900 truncate">
                                           {{ pwd[0] }}
