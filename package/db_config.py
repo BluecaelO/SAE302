@@ -42,10 +42,16 @@ def creatuser(user,password):
             CONNECTION LIMIT -1
             PASSWORD '{password}';
 
-            CREATE TABLE IF NOT EXISTS "{user + "tbl"}" (
+            
+            CREATE TABLE IF NOT EXISTS "{user+"_vault"}" (
+                pass_name VARCHAR(255) PRIMARY KEY,
+                login VARCHAR(255),
+                password VARCHAR(255),
+                FOREIGN KEY (user_id) REFERENCES users(user_id)
             );
+        
 
-            ALTER TABLE IF EXISTS "{user + "tbl"}"
+            ALTER TABLE IF EXISTS "{user + "_vault"}"
             OWNER to "{user}";
         '''
         # Execute la requête   
