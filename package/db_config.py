@@ -12,7 +12,7 @@ def connexion_db(user,pwd):
     'dbname': 'flask',
     'user': user,
     'password': pwd,
-    'host': '192.168.251.58',
+    'host': '192.168.38.58',
     'port': '5432'
     }
     try:
@@ -76,3 +76,28 @@ def close_db():
         print("Connexion ferme")
     except psycopg2.Error as e:
         print("Erreur de fermeture : " + str(e))
+
+
+
+def get_pwd_list():
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pwdname, pwdid FROM {user + 'tbl'}"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"

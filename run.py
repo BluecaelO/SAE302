@@ -12,7 +12,8 @@ app.secret_key = secrets.token_hex()
 @app.route("/", methods=["GET", "POST"])
 def index():
     if session.get("login") == True:
-        return render_template("index.html")
+        pwd_list=get_pwd_list()
+        return render_template("index.html",pwd_list=pwd_list)
     elif session.get("login") == False or session.get("login") == None:
             session["user"] = None
             return redirect(url_for("login"))
