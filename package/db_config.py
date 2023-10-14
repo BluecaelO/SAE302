@@ -71,7 +71,7 @@ def creatuser(user,password):
             conn.close()
     return True
     
-
+ 
 ## Déconnexion DB
 def close_db():
     global conn
