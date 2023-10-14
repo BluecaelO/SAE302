@@ -30,7 +30,7 @@ def creatuser(user,password):
         # Créer un objet curseur
         cursor = conn.cursor()
 
-        # Définir la requête SQL pour créer une table en fonction du nom de l'utilisateur
+        # Définir la requête SQL pour créer une table en fonction du nom de l'utilisateur.
         query = f'''
             CREATE ROLE "{user}" WITH
             LOGIN
