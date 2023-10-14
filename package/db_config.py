@@ -91,7 +91,7 @@ def get_pwd_list():
     if user:
         try:
             cursor = conn.cursor()
-            query = f"SELECT pwdname, pwdid FROM {user + '_vault'}"
+            query = f"SELECT pass_name, site FROM {user + '_vault'}"
 
             cursor.execute(query)
             rows = cursor.fetchall()
