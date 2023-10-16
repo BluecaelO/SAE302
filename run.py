@@ -11,6 +11,8 @@ app.secret_key = secrets.token_hex()
 
 @app.route("/", methods=["GET", "POST"])
 def index():
+    print(session.get("login"))
+    print(session.get("user"))
     if session.get("login") == True:
         pwd_list=get_pwd_list()
         return render_template("index.html",pwd_list=pwd_list)
@@ -61,7 +63,7 @@ def register():
         if connexion_db("root","root")== False:
             return render_template("register.html")
         
-        if creatuser(request.form["user"],request.form["password1"])==False:
+        if creat_user(request.form["user"],request.form["password1"])==False:
             close_db()
             flash("Unable to register the User")
             return render_template("register.html")
@@ -74,18 +76,18 @@ def register():
 @app.route("/add_password",methods=["GET","POST"])
 def add_password():
     if session.get("login") == True:
-        if request.method == "POST" and "pass_name" in request.form and "password" in request.form and "login" in request.form and "site" in request.form:
-            pass_name=request.args.get('pass_name')
-            password=request.args.get('password')
-            login=request.args.get('login')
-            site=request.args.get('site')
-
+        if request.method == "POST" and "pass_name" in request.form and "password" in request.form and "pass_login" in request.form and "pass_url" in request.form:
+            pass_name = request.form.get('pass_name')
+            password = request.form.get('password')
+            login = request.form.get('pass_login')
+            site = request.form.get('pass_url')
+            print(pass_name,password,login,site)
             if add_password_to_db(pass_name,password,login,site):
                 return redirect(url_for("index"))
             else:
                 return render_template("add_password.html")
         else:
-            render_template("add_password.html")
+            return render_template("add_password.html")
     else:
         return redirect(url_for("login"))
         

@@ -24,7 +24,7 @@ def connexion_db(user,pwd):
         print("Erreur de connexion : " + str(e))
         return False
     
-def creatuser(user,password):
+def creat_user(user,password):
     global conn
     try:
         # Créer un objet curseur
@@ -111,25 +111,33 @@ def get_pwd_list():
 
 
 def add_password_to_db(pass_name, password, login, site):
-    print("deuwième phase")
+    print("deuxième phase")
     global conn
-    # Récupérer le nom de l'utilisateur à partir de la session
     user = session.get('user')
     if user:
         try:
             cursor = conn.cursor()
+            
+            # Vérifier si le mot de passe existe déjà dans la base de données
+            query = f"SELECT pass_name FROM public.{user + '_vault'} WHERE pass_name = '{pass_name}'"
+            cursor.execute(query)
+            existing_password = cursor.fetchone()
+            
+            if existing_password:
+                flash("The password already exists")
+                return False
+            
+            # Insérer les données dans la base de données
             query = f"INSERT INTO public.{user + '_vault'} (pass_name, login, password, site) VALUES ('{pass_name}', '{login}', '{password}', '{site}')"
             cursor.execute(query)
             conn.commit()
             cursor.close()
             print("Insertion réussie")
             return True
-
         except psycopg2.Error as e:
-            flash("Error we can't add the password")
-            print("Error SQL: ", e)
+            flash("Error: we can't add the password")
+            print("Error SQL:", e)
             return False
-
 #url de test
 #http://127.0.0.1:5000/add_password?pass_name=pass_name&password=password&login=login&site=site
 
