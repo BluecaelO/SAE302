@@ -12,7 +12,8 @@ app.secret_key = secrets.token_hex()
 @app.route("/", methods=["GET", "POST"])
 def index():
     if session.get("login") == True:
-        return render_template("index.html")
+        pwd_list=get_pwd_list()
+        return render_template("index.html",pwd_list=pwd_list)
     elif session.get("login") == False or session.get("login") == None:
             session["user"] = None
             return redirect(url_for("login"))
@@ -68,7 +69,30 @@ def register():
         close_db()
         return redirect(url_for("login"))
     return render_template("register.html") 
+
+
+@app.route("/add_password",methods=["GET","POST"])
+def add_password():
+    if session.get("login") == True:
+        if request.method == "POST" and "pass_name" in request.form and "password" in request.form and "login" in request.form and "site" in request.form:
+            pass_name=request.args.get('pass_name')
+            password=request.args.get('password')
+            login=request.args.get('login')
+            site=request.args.get('site')
+
+            if add_password_to_db(pass_name,password,login,site):
+                return redirect(url_for("index"))
+            else:
+                return render_template("add_password.html")
+        else:
+            render_template("add_password.html")
+    else:
+        return redirect(url_for("login"))
         
 
 if __name__ == '__main__':
     app.run(debug=True)
+
+
+
+

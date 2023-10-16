@@ -12,7 +12,7 @@ def connexion_db(user,pwd):
     'dbname': 'flask',
     'user': user,
     'password': pwd,
-    'host': '192.168.251.58',
+    'host': '192.168.178.58',
     'port': '5432'
     }
     try:
@@ -30,7 +30,7 @@ def creatuser(user,password):
         # Créer un objet curseur
         cursor = conn.cursor()
 
-        # Définir la requête SQL pour créer une table en fonction du nom de l'utilisateur
+        # Définir la requête SQL pour créer une table en fonction du nom de l'utilisateur.
         query = f'''
             CREATE ROLE "{user}" WITH
             LOGIN
@@ -43,13 +43,12 @@ def creatuser(user,password):
             PASSWORD '{password}';
 
             
-            CREATE TABLE IF NOT EXISTS "{user+"_vault"}" (
+            CREATE TABLE IF NOT EXISTS {user+"_vault"} (
                 pass_name VARCHAR(255) PRIMARY KEY,
                 login VARCHAR(255),
                 password VARCHAR(255),
-                FOREIGN KEY (user_id) REFERENCES users(user_id)
+                site VARCHAR(255)
             );
-        
 
             ALTER TABLE IF EXISTS "{user + "_vault"}"
             OWNER to "{user}";
@@ -71,7 +70,7 @@ def creatuser(user,password):
             conn.close()
     return True
     
- 
+
 ## Déconnexion DB
 def close_db():
     global conn
@@ -82,3 +81,56 @@ def close_db():
         print("Connexion ferme")
     except psycopg2.Error as e:
         print("Erreur de fermeture : " + str(e))
+
+
+
+def get_pwd_list():
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, site FROM {user + '_vault'}"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+    
+
+
+def add_password_to_db(pass_name, password, login, site):
+    print("deuwième phase")
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"INSERT INTO public.{user + '_vault'} (pass_name, login, password, site) VALUES ('{pass_name}', '{login}', '{password}', '{site}')"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            print("Insertion réussie")
+            return True
+
+        except psycopg2.Error as e:
+            flash("Error we can't add the password")
+            print("Error SQL: ", e)
+            return False
+
+#url de test
+#http://127.0.0.1:5000/add_password?pass_name=pass_name&password=password&login=login&site=site
+
+        
