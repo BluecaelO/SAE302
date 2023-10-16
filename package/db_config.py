@@ -111,6 +111,7 @@ def get_pwd_list():
 
 
 def add_password_to_db(pass_name, password, login, site):
+    print("deuwième phase")
     global conn
     # Récupérer le nom de l'utilisateur à partir de la session
     user = session.get('user')
@@ -122,11 +123,12 @@ def add_password_to_db(pass_name, password, login, site):
             conn.commit()
             cursor.close()
             print("Insertion réussie")
+            return True
 
-        except psycopg2.Error as error:
-            print("Erreur SQL: ", error)
+        except psycopg2.Error as e:
+            flash("Error we can't add the password")
+            print("Error SQL: ", e)
             return False
-    return True
 
 #url de test
 #http://127.0.0.1:5000/add_password?pass_name=pass_name&password=password&login=login&site=site

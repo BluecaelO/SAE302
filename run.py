@@ -78,10 +78,12 @@ def add_password():
         password=request.args.get('password')
         login=request.args.get('login')
         site=request.args.get('site')
+        print("première phase")
         if add_password_to_db(pass_name,password,login,site):
             return redirect(url_for("index"))
         else:
-            print("Erreur SQL")
+            print("3eme phase")
+            return redirect(url_for("index"))
     else:
         return redirect(url_for("login"))
         
