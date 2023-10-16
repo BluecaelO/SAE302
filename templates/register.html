@@ -28,7 +28,7 @@
                     <p><i class="fa-solid fa-bomb"></i> Choose carefully your password.<br>You won't able to change!</p>
                 </div>
                 <input type="password" name="password1" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Password" value=""/>
-                <input type="password" name="password2" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Confirm password" value=""/>
+                <input id="password" type="password" name="password2" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium " placeholder="Confirm password" value=""/>
                 <input type="submit" class="bg-slate-500 hover:bg-slate-700 text-white text-base rounded-lg py-2.5 px-5 mb-2 transition-colors w-full text-[19px]">
             </form>
             {% with messages = get_flashed_messages()  %}
