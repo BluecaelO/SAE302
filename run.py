@@ -81,6 +81,13 @@ def add_password():
             password = request.form.get('password')
             login = request.form.get('pass_login')
             site = request.form.get('pass_url')
+            if request.form["pass_name"]=="":
+                flash("We need a password name")
+                return render_template("add_password.html")
+            if request.form["password"]=="":
+                flash("We need a password")
+                return render_template("add_password.html")
+            
             print(pass_name,password,login,site)
             if add_password_to_db(pass_name,password,login,site):
                 return redirect(url_for("index"))
