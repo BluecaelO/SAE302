@@ -1,0 +1,28 @@
+{% for pwd in pwd_list %}
+<li class="py-3 sm:py-4">
+   <div class="flex items-center space-x-4">
+      <div class="w-10 h-10 bg-[#88C0D0] rounded-full  text-center flex flex-col justify-center">
+         <p class="text-[20px] font-semibold uppercase">{{ pwd[0][0] }}</p>
+     </div>
+      <div class="flex-1 min-w-0">
+         <p class="text-sm font-medium text-gray-900 truncate">
+            {{ pwd[0] }}
+         </p>
+         <p class="text-sm text-gray-500 truncate">
+            <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="17727a767e7b57607e7973646372653974787a">{{ pwd[1] }}</a>
+         </p>
+      </div>
+      <div class="inline-flex items-center text-base font-semibold text-gray-900">
+         
+      </div>
+      <div class="space-x-1">
+         <button href="#" type="button" class="text-black  bg-[#D08770] hover:bg-[#d086709a] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-pencil" style="color: #000000;"></i></button>
+         <button type="button" class="text-black  bg-[#A3BE8C] hover:bg-[#a3be8c8a] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-circle-user" style="color: #000000;"></i></button>
+         <button type="button" class="text-black  bg-[#8FBCBB] hover:bg-[#8fbcbb9d] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-key" style="color: #000000;"></i></button>
+         <button type="button" class="text-black  bg-[#BF616A] hover:bg-[#bf616a94] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-trash-can" style="color: #000000;"></i></button>
+
+         
+      </div>
+   </div>
+</li>
+{% endfor %}

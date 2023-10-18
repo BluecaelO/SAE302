@@ -52,7 +52,7 @@
                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                          </svg>
                       </div>
-                      <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
+                      <input type="text" name="email" id="topbar-search" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full pl-10 p-2.5" oninput="search(document.getElementById('topbar-search').value)" placeholder="Search">
                    </div>
                 </form>
              </div>
@@ -92,7 +92,7 @@
                                      <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                                   </svg>
                                </div>
-                               <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search">
+                               <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5"  oninput="search(document.getElementById('mobile-search').value)" placeholder="Search">
                             </div>
                          </form>
                       </li>
@@ -131,7 +131,7 @@
                          <a href="/add_password" class="text-white drop-shadow-md bg-[#3B4252] hover:bg-[#3b425296] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5" onclick="show_add_password()"><i class="fa-solid fa-plus pr-2" style="color: #ffffff;"></i> Add password</a>
                       </div>
                       <div class="flow-root">
-                         <ul role="list" class="divide-y divide-gray-200">
+                         <ul id="password_table" role="list" class="divide-y divide-gray-200">
                            <!--liste de mot de passes-->
                            {% for pwd in pwd_list %}
                               <li class="py-3 sm:py-4">
@@ -218,6 +218,8 @@
     </div>
     <script src = "{{ url_for('static', filename = 'js/add_password.js') }}">
     </script>
+    <script src = "{{ url_for('static', filename = 'js/search.js') }}">
+   </script>
     
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>

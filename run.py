@@ -97,7 +97,18 @@ def add_password():
             return render_template("add_password.html")
     else:
         return redirect(url_for("login"))
-        
+
+@app.route("/search",methods=["GET","POST"])
+def search():
+    if session.get("login") == True:
+        if request.method == "POST" and "value" in request.args:
+            value = request.args.get("value")
+            pwd_list = get_pwd_list_search(value)
+            return render_template("search.html", pwd_list=pwd_list)
+        else:
+            return "no results"
+    else:
+        return "no results"
 
 if __name__ == '__main__':
     app.run(debug=True)

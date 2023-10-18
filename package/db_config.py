@@ -12,7 +12,7 @@ def connexion_db(user,pwd):
     'dbname': 'flask',
     'user': user,
     'password': pwd,
-    'host': '192.168.198.58',
+    'host': '192.168.198.55',
     'port': '5432'
     }
     try:
@@ -141,4 +141,29 @@ def add_password_to_db(pass_name, password, login, site):
 #url de test
 #http://127.0.0.1:5000/add_password?pass_name=pass_name&password=password&login=login&site=site
 
-        
+def get_pwd_list_search(value):
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, site FROM {user + '_vault'} WHERE pass_name LIKE '%{value}%'"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+    
+#url de test
+#http://127.0.0.1:5000/search?value=Linkedin
