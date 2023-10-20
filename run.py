@@ -47,56 +47,67 @@ def login():
 def register():
     session["login"] = False
     session["user"] = None
+    
     if request.method == "POST" and "user" in request.form and "password1" in request.form and "password2" in request.form:
-        if request.form["user"]=="":
+        user = escape(request.form["user"])
+        password1 = escape(request.form["password1"])
+        password2 = escape(request.form["password2"])
+        
+        if user == "":
             flash("We need a user name")
             return render_template("register.html")
 
-        if request.form["password1"]=="":
+        if password1 == "":
             flash("We need a password")
             return render_template("register.html")
         
-        if request.form["password1"]!=request.form["password2"]:
-            flash("Passwords not correspondig")
+        if password1 != password2:
+            flash("Passwords not corresponding")
             return render_template("register.html")
         
-        if connexion_db("root","root")== False:
+        if connexion_db("root", "root") == False:
             return render_template("register.html")
         
-        if creat_user(request.form["user"],request.form["password1"])==False:
+        if creat_user(user, password1) == False:
             close_db()
             flash("Unable to register the User")
             return render_template("register.html")
         
         close_db()
         return redirect(url_for("login"))
-    return render_template("register.html") 
-
+    
+    return render_template("register.html")
 
 @app.route("/add_password",methods=["GET","POST"])
 def add_password():
-    if session.get("login") == True:
-        if request.method == "POST" and "pass_name" in request.form and "password" in request.form and "pass_login" in request.form and "pass_url" in request.form:
-            pass_name = request.form.get('pass_name')
-            password = request.form.get('password')
-            login = request.form.get('pass_login')
-            site = request.form.get('pass_url')
-            if request.form["pass_name"]=="":
-                flash("We need a password name")
-                return render_template("add_password.html")
-            if request.form["password"]=="":
-                flash("We need a password")
-                return render_template("add_password.html")
-            
-            print(pass_name,password,login,site)
-            if add_password_to_db(pass_name,password,login,site):
-                return redirect(url_for("index"))
-            else:
-                return render_template("add_password.html")
-        else:
-            return render_template("add_password.html")
-    else:
+    if not session.get("login"):
         return redirect(url_for("login"))
+    
+    category_list = get_category_list()
+    
+    if request.method == "POST":
+        pass_name = escape(request.form.get('pass_name'))
+        password = escape(request.form.get('password'))
+        login = escape(request.form.get('pass_login'))
+        site = escape(request.form.get('pass_url'))
+        category = escape(request.form.get('pass_category'))
+        
+        if not pass_name:
+            flash("We need a password name")
+            return render_template("add_password.html", category_list=category_list)
+        
+        if not password:
+            flash("We need a password")
+            return render_template("add_password.html", category_list=category_list)
+        
+        print(pass_name, password, login, site)
+        
+        if add_password_to_db(pass_name, password, login, site, category):
+            return redirect(url_for("index"))
+        else:
+            return render_template("add_password.html", category_list=category_list)
+    
+    return render_template("add_password.html", category_list=category_list)
 
 @app.route("/search",methods=["GET","POST"])
 def search():
@@ -104,9 +115,16 @@ def search():
         if request.method == "POST" and "value" in request.args:
             value = request.args.get("value")
             pwd_list = get_pwd_list_search(value)
-            return render_template("search.html", pwd_list=pwd_list)
+            return render_template("search.html", pwd_list=pwd_list)  
         else:
             return "no results"
+        '''
+        elif request.method == "POST" and "category" in request.args:
+            category = request.args.get("category")
+            pwd_list = get_pwd_list_search_category(value)
+            return render_template("search.html", pwd_list=pwd_list)
+        '''
+        
     else:
         return "no results"
 
