@@ -34,10 +34,10 @@ def login():
     session["login"] = False
     session["user"] = None
     if request.method == "POST" and "user" in request.form and "password" in request.form:
-        if connexion_db(request.form["user"], request.form["password"]) == False:
+        if connexion_db(escape(request.form["user"]), escape(request.form["password"])) == False:
             return redirect(url_for("login"))
         else:
-            session["user"] = request.form["user"]
+            session["user"] = escape(request.form["user"])
             session["login"] = True
             return redirect(url_for("index"))
     else:
@@ -134,6 +134,21 @@ def search():
             pwd_list = get_pwd_list_search_category(value)
             return render_template("search.html", pwd_list=pwd_list)
         '''
+        
+    else:
+        return "no results"
+    
+
+@app.route("/fill_infos",methods=["POST"])
+def fill_infos():
+    if session.get("login") == True:
+        if request.method == "POST" and "pass_name" in request.args:
+            pass_name = escape(request.args.get("pass_name"))
+            pwd = get_password(pass_name)
+            return render_template("fill_infos.html", pwd=pwd)  
+
+        else:
+            return "no results"
         
     else:
         return "no results"

@@ -35,3 +35,4 @@ function copyPassword() {
     copyText.select();
     document.execCommand("copy");
   }
+

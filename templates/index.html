@@ -93,7 +93,7 @@
                                      <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
                                   </svg>
                                </div>
-                               <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5"  oninput="search(document.getElementById('mobile-search').value)" placeholder="Search">
+                               <input type="text" name="email" id="mobile-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 block w-full pl-10 p-2.5"  oninput="search(document.getElementById('mobile-search').value)" placeholder="Search">
                             </div>
                          </form>
                       </li>
@@ -101,23 +101,23 @@
                         <a href="#" target="" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
                        
                            <i class="fa-solid fa-arrows-rotate text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
-                           <span onclick="window.location.href='/passwords_generator';"  class="ml-3">Passwords Generator</span>
+                           <span onclick="window.location.href='/passwords_generator';"  class="ml-3">Passwords Generator <i class="fa-solid fa-arrow-up-right-from-square" style="color: #bdbdbd;"></i></span>
                          </a>
                      </li>
                      <li>
                      </li>
                    </ul>
                    <div class="space-y-2 pt-2">
-                     <button onclick="search('')" class="text-base text-gray-900 font-normal rounded-lg  flex items-center p-2 hover:bg-gray-100 group">
+                     
+                     <button onclick="search('')" class="w-full text-base text-gray-900 font-normal rounded-lg  flex items-center p-2 hover:bg-gray-100 group">
                         <i class="fa-solid fa-lock text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" ></i>
                         <span class="ml-3">All Passwords</span>
-                     </button>
+                     </button >
                       
-                     <button onclick="search_fav()" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
+                     <button onclick="search_fav()" class="w-full text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
                         <i class="fa-solid fa-star text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
                         <span class="ml-3">Favorite passwords</span>
                      </button>
-                   
                 </div>
              </div>
           </div>
@@ -129,8 +129,8 @@
                 <div class="grid grid-cols-1 2xl:grid-cols-2 xl:gap-4 my-4">
                    <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 lg:h-[814px] overflow-auto">
                       <div class="flex items-center justify-between pb-5">
-                         <h3 class="text-xl font-bold leading-none text-gray-900">Passwords list</h3>
-                         <a href="/add_password" class="text-white drop-shadow-md bg-[#3B4252] hover:bg-[#3b425296] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5" onclick="show_add_password()"><i class="fa-solid fa-plus pr-2" style="color: #ffffff;"></i> Add password</a>
+                         <h3 class="text-xl font-bold leading-none text-gray-900"><i class="fa-solid fa-list pr-2"></i> Passwords list</h3>
+                         <a href="/add_password" class="text-white drop-shadow-md bg-[#3B4252] hover:bg-[#3b425296] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5" onclick="show_add_password()"><i class="fa-solid fa-plus pr-2" style="color: #ffffff;"></i> Add password <i class="fa-solid fa-arrow-up-right-from-square" style="color: #D8DEE9;"></i></a>
                       </div>
                       <div class="flow-root">
                          <ul id="password_table" role="list" class="divide-y divide-gray-200">
@@ -140,53 +140,36 @@
                       </div>
                    </div>
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 lg:h-[814px] overflow-hidden">
-                      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Show Password</h3>
-                     <div class="logo flex justify-center">
-                        
-                        <div class="w-40 h-40 bg-[#88C0D0] rounded-full  text-center flex flex-col justify-center">
-                           <p class="text-[50px] font-semibold uppercase">G</p>
+                      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10"><i class="fa-solid fa-circle-info pr-2"></i>Password Infomations</h3>
+                     
+                     <div id="password_infos">
+
+                        <div class="password_not_selected flex justify-center">
+                           <div class="justify-center bg-[#d08770] rounded-lg p-4 drop-shadow-md transition ease-in-out delay-150 hover:scale-110 duration-300">
+                              <h1 class="uppercase  font-semibold ">Please Select a password to edit it  <i class="pl-2 fa-solid fa-pencil"></i></h1>
+                           </div>
                         </div>
-                       
+
+
+                           
                      </div>
-                     <div class="password_infos ">
-                         
-                        <form action="">
-                           <div class="mb-6">
-                              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Password Name</label>
-                              <input type="email" id="email" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                           </div>
-                           <div class="mb-6">
-                              <label for="login" class="block mb-2 text-sm font-medium text-gray-900 ">Login</label>
-                              <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                           </div>
-                           <div class="mb-6">
-                              <label for="pessword" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                              <input type="password" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                           </div>
-                           <div class="mb-6">
-                              <label for="site" class="block mb-2 text-sm font-medium text-gray-900 ">Site</label>
-                              <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                           </div>
-                           <div class="space-x-2 flex">
-                              <button href="#" type="button" class="text-black  bg-[#A3BE8C] hover:bg-[#a3be8c8a] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-floppy-disk pr-2" style="color: #000000;"></i> Apply Modifications </button>
-                              <button href="#" type="button" class="text-black  bg-[#EBCB8B] hover:bg-[#ebcb8b8c] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-star pr-2" style="color: #000000;"></i>Add to favorite </button>
-                           </div>  
-                        </form>
-                     </div>
-                      </div>
+
+                     
                    </div>
                 </div>
              </div>
             </main>
        </div>
     </div>
-    <script src = "{{ url_for('static', filename = 'js/add_password.js') }}">
-    </script>
-    <script src = "{{ url_for('static', filename = 'js/search.js') }}">
-   </script>
+    <script src = "{{ url_for('static', filename = 'js/add_password.js') }}"></script>
+    <script src = "{{ url_for('static', filename = 'js/search.js') }}"></script>
+    <script src = "{{ url_for('static', filename = 'js/fill_infos.js') }}"></script>
+    
+   
     
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
+    
  </div>
 </body>
 </html>

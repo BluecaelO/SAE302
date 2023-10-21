@@ -250,3 +250,28 @@ def get_category_list():
     else:
         return "Utilisateur non connecté"
     
+
+def get_password(value):
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, login,password,site,category,favorite FROM {user + '_vault'} WHERE pass_name = '{value}'"
+
+            cursor.execute(query)
+            rows = cursor.fetchone()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+    

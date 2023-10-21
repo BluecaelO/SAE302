@@ -1,0 +1,42 @@
+<div class="logo flex justify-center">
+                           
+   <div class="w-40 h-40 bg-[#88C0D0] rounded-full  text-center flex flex-col justify-center">
+      <p class="text-[50px] font-semibold uppercase">{{ pwd[0][0] }}</p>
+   </div>
+
+</div>
+
+<div class="mb-6">
+    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Password Name</label>
+    <input type="email" id="email" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" value="{{ pwd[0] }}" required readonly>
+ </div>
+ <label for="login" class="block mb-2 text-sm font-medium text-gray-900 ">Login</label>
+ <div class="mb-6 flex space-x-2">
+    
+    <input id="Login" type="text" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" value="{{ pwd[1] }}" required readonly>
+    <button onclick="copy('Login')" type="button" class="h-[50px] text-black  bg-[#3B4252] hover:bg-[#3b4252cb] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-copy" style="color: #ffffff;"></i></button>
+ </div>
+ <label for="login" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
+ <div class="mb-6 flex space-x-2">
+    <div class="relative w-full">
+       <div class="absolute inset-y-0 left-2 top-[-5px] flex items-center px-2">
+       <input class="hidden js-password-toggle" id="toggle" type="checkbox" />
+       <label onclick="PassShow()" id="ShowPassword" class="cursor-pointer js-password-label" for="toggle"><i class="fa-solid fa-eye"></i></label>
+       </div>
+          <input class="w-full pl-[40px] px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium js-password" id="password" type="password" value="{{ pwd[2] }}" autocomplete="off" readonly>
+    </div>
+    <button onclick="copyPassword()" type="button" class="h-[50px] text-black  bg-[#3B4252] hover:bg-[#3b4252cb] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-copy" style="color: #ffffff;"></i></button>
+
+ </div>
+    
+ 
+ <div class="mb-6">
+    <label for="site" class="block mb-2 text-sm font-medium text-gray-900 ">Site</label>
+    <input type="text"  class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" value="{{ pwd[3] }}" required readonly> 
+ </div>
+ <div class="flex space-x-5">
+
+    <a href="/modify_password?pass_name={{pwd[0]}}" type="button" class="text-white  bg-[#4C566A] hover:bg-[#4c566aab] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-pencil" style="color: #ffffff;"></i> Edit Password <i class="fa-solid fa-arrow-up-right-from-square" style="color: #D8DEE9;"></i></a>
+    <a href="#" type="button" class="text-black  bg-[#EBCB8B] hover:bg-[#ebcb8b8c] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-star pr-2" style="color: #000000;"></i>Add to favorite </a>
+ </div> 
+
