@@ -12,7 +12,7 @@ def connexion_db(user,pwd):
     'dbname': 'flask',
     'user': user,
     'password': pwd,
-    'host': '192.168.124.55',
+    'host': '192.168.119.42',
     'port': '5432'
     }
     try:

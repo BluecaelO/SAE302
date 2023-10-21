@@ -15,7 +15,7 @@ def index():
     print(session.get("user"))
     if session.get("login") == True:
         pwd_list=get_pwd_list()
-        return render_template("index.html",pwd_list=pwd_list)
+        return render_template("index.html",pwd_list=pwd_list,user_name=session.get("user"))
     elif session.get("login") == False or session.get("login") == None:
             session["user"] = None
             return redirect(url_for("login"))
@@ -113,7 +113,7 @@ def add_password():
 def search():
     if session.get("login") == True:
         if request.method == "POST" and "value" in request.args:
-            value = request.args.get("value")
+            value = escape(request.args.get("value"))
             pwd_list = get_pwd_list_search(value)
             return render_template("search.html", pwd_list=pwd_list)  
         else:

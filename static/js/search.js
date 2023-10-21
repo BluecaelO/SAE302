@@ -30,3 +30,16 @@ function search_category(value) {
         }
     });
 }
+
+function search_fav(value) {
+    // Envoi de la requête AJAX au serveur
+    $.ajax({
+        type: "POST",
+        url: "search?fav=" + encodeURIComponent(value),
+        success: function(data) {
+            // Traitement des données récupérées
+            // Remplacement du contenu de l'élément "table-container" avec les données du tableau
+            $("#").html(data);
+        }
+    });
+}
