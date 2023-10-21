@@ -108,15 +108,15 @@
                      </li>
                    </ul>
                    <div class="space-y-2 pt-2">
-                     <a href="#" class="text-base text-gray-900 font-normal rounded-lg  flex items-center p-2 hover:bg-gray-100 group">
+                     <button onclick="search('')" class="text-base text-gray-900 font-normal rounded-lg  flex items-center p-2 hover:bg-gray-100 group">
                         <i class="fa-solid fa-lock text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" ></i>
                         <span class="ml-3">All Passwords</span>
-                     </a>
+                     </button>
                       
-                     <a href="#" target="" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
+                     <button onclick="search_fav()" class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 group transition duration-75 flex items-center p-2">
                         <i class="fa-solid fa-star text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"></i>
                         <span class="ml-3">Favorite passwords</span>
-                     </a>
+                     </button>
                    
                 </div>
              </div>
@@ -140,7 +140,7 @@
                       </div>
                    </div>
                    <div class="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 lg:h-[814px] overflow-hidden">
-                      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Edit Password</h3>
+                      <h3 class="text-xl leading-none font-bold text-gray-900 mb-10">Show Password</h3>
                      <div class="logo flex justify-center">
                         
                         <div class="w-40 h-40 bg-[#88C0D0] rounded-full  text-center flex flex-col justify-center">
@@ -151,26 +151,26 @@
                      <div class="password_infos ">
                          
                         <form action="">
-                        <div class="mb-6">
-                           <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Password Name</label>
-                           <input type="email" value="hello" id="email" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                        </div>
-                        <div class="mb-6">
-                           <label for="login" class="block mb-2 text-sm font-medium text-gray-900 ">Login</label>
-                           <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                        </div>
-                        <div class="mb-6">
-                           <label for="pessword" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                           <input type="password" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                        </div>
-                        <div class="mb-6">
-                           <label for="site" class="block mb-2 text-sm font-medium text-gray-900 ">Site</label>
-                           <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
-                        </div>
-                        <div class="space-x-2 flex">
-                           <button href="#" type="button" class="text-black  bg-[#A3BE8C] hover:bg-[#a3be8c8a] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-floppy-disk pr-2" style="color: #000000;"></i> Apply Modifications </button>
-                           <button href="#" type="button" class="text-black  bg-[#EBCB8B] hover:bg-[#ebcb8b8c] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-star pr-2" style="color: #000000;"></i>Add to favorite </button>
-                        </div>  
+                           <div class="mb-6">
+                              <label for="email" class="block mb-2 text-sm font-medium text-gray-900 ">Password Name</label>
+                              <input type="email" id="email" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
+                           </div>
+                           <div class="mb-6">
+                              <label for="login" class="block mb-2 text-sm font-medium text-gray-900 ">Login</label>
+                              <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
+                           </div>
+                           <div class="mb-6">
+                              <label for="pessword" class="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
+                              <input type="password" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
+                           </div>
+                           <div class="mb-6">
+                              <label for="site" class="block mb-2 text-sm font-medium text-gray-900 ">Site</label>
+                              <input type="text" id="password" class="w-full px-6 py-3 mb-2 border border-slate-600 rounded-lg font-medium" required>
+                           </div>
+                           <div class="space-x-2 flex">
+                              <button href="#" type="button" class="text-black  bg-[#A3BE8C] hover:bg-[#a3be8c8a] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-floppy-disk pr-2" style="color: #000000;"></i> Apply Modifications </button>
+                              <button href="#" type="button" class="text-black  bg-[#EBCB8B] hover:bg-[#ebcb8b8c] focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 py-2.5"><i class="fa-solid fa-star pr-2" style="color: #000000;"></i>Add to favorite </button>
+                           </div>  
                         </form>
                      </div>
                       </div>

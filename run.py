@@ -116,8 +116,18 @@ def search():
             value = escape(request.args.get("value"))
             pwd_list = get_pwd_list_search(value)
             return render_template("search.html", pwd_list=pwd_list)  
+        
+        elif request.method == "POST" and "fav" in request.args:
+            fav = request.args.get("fav")
+            pwd_list = get_pwd_list_search_fav()
+            return render_template("search.html", pwd_list=pwd_list)
+
+
         else:
             return "no results"
+        
+        
+        
         '''
         elif request.method == "POST" and "category" in request.args:
             category = request.args.get("category")

@@ -49,7 +49,7 @@ def creat_user(user,password):
                 password VARCHAR(255),
                 site VARCHAR(255),
                 category VARCHAR(255),
-                favorite VARCHAR(255)
+                favorite BIT
             );
 
             CREATE TABLE IF NOT EXISTS {user+"_category"} (
@@ -116,7 +116,6 @@ def get_pwd_list():
         return "Utilisateur non connecté"
     
 
-
 def add_password_to_db(pass_name, password, login, site, categoty):
     print("deuxième phase")
     global conn
@@ -157,6 +156,30 @@ def get_pwd_list_search(value):
         try:
             cursor = conn.cursor()
             query = f"SELECT pass_name, site, favorite FROM {user + '_vault'} WHERE pass_name LIKE '%{value}%'"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+    
+def get_pwd_list_search_fav():
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, site, favorite FROM {user + '_vault'} WHERE favorite = '1'"
 
             cursor.execute(query)
             rows = cursor.fetchall()
