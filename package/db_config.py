@@ -9,10 +9,10 @@ def connexion_db(user,pwd):
     global conn
 
     db_config = { 
-    'dbname': 'flask',
-    'user': user,
-    'password': pwd,
-    'host': '192.168.38.58',
+    'dbname': 'postgres',
+    'user': 'root',
+    'password': 'uKenNdraJHgv5i6Dm8X6',
+    'host': '127.0.0.1',
     'port': '5432'
     }
     try:
@@ -24,7 +24,7 @@ def connexion_db(user,pwd):
         print("Erreur de connexion : " + str(e))
         return False
     
-def creatuser(user,password):
+def creat_user(user,password):
     global conn
     try:
         # Créer un objet curseur
@@ -47,11 +47,18 @@ def creatuser(user,password):
                 pass_name VARCHAR(255) PRIMARY KEY,
                 login VARCHAR(255),
                 password VARCHAR(255),
-                site VARCHAR(255)
+                site VARCHAR(255),
+                category VARCHAR(255),
+                favorite VARCHAR(255)
             );
 
-            ALTER TABLE IF EXISTS "{user + "_vault"}"
-            OWNER to "{user}";
+            CREATE TABLE IF NOT EXISTS {user+"_category"} (
+                category VARCHAR(255) PRIMARY KEY
+            );
+
+            ALTER TABLE IF EXISTS "{user + "_vault"}" OWNER to "{user}";
+
+            ALTER TABLE IF EXISTS "{user + "_category"}" OWNER to "{user}";
         '''
         # Execute la requête   
         cursor.execute(query)
@@ -85,13 +92,14 @@ def close_db():
 
 
 def get_pwd_list():
+    global conn
     # Récupérer le nom de l'utilisateur à partir de la session
     user = session.get('user')
     # Vérifier si l'utilisateur est connecté
     if user:
         try:
             cursor = conn.cursor()
-            query = f"SELECT pass_name, site FROM {user + '_vault'}"
+            query = f"SELECT pass_name, site, favorite FROM {user + '_vault'}"
 
             cursor.execute(query)
             rows = cursor.fetchall()
@@ -106,3 +114,116 @@ def get_pwd_list():
 
     else:
         return "Utilisateur non connecté"
+    
+
+
+def add_password_to_db(pass_name, password, login, site, categoty):
+    print("deuxième phase")
+    global conn
+    user = session.get('user')
+    if user:
+        try:
+            cursor = conn.cursor()
+            
+            # Vérifier si le mot de passe existe déjà dans la base de données
+            query = f"SELECT pass_name FROM public.{user + '_vault'} WHERE pass_name = '{pass_name}'"
+            cursor.execute(query)
+            existing_password = cursor.fetchone()
+            
+            if existing_password:
+                flash("The password already exists")
+                return False
+            
+            # Insérer les données dans la base de données
+            query = f"INSERT INTO public.{user + '_vault'} (pass_name, login, password, site, category) VALUES ('{pass_name}', '{login}', '{password}', '{site}', '{categoty}')"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            print("Insertion réussie")
+            return True
+        except psycopg2.Error as e:
+            flash("Error: we can't add the password")
+            print("Error SQL:", e)
+            return False
+#url de test
+#http://127.0.0.1:5000/add_password?pass_name=pass_name&password=password&login=login&site=site
+
+def get_pwd_list_search(value):
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, site, favorite FROM {user + '_vault'} WHERE pass_name LIKE '%{value}%'"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+'''
+def get_pwd_list_search_category(category):
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    # Vérifier si l'utilisateur est connecté
+    if user:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT pass_name, site FROM {user + '_vault'} WHERE category LIKE '{category}'"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+#url de test
+#http://127.0.0.1:5000/search?value=Linkedin
+'''
+def get_category_list():
+    global conn
+    # Récupérer le nom de l'utilisateur à partir de la session
+    user = session.get('user')
+    login = session.get('login')
+
+    print("get_category_list")
+    # Vérifier si l'utilisateur est connecté
+    if user and login==True:
+        try:
+            cursor = conn.cursor()
+            query = f"SELECT * FROM {user + '_category'}"
+
+            cursor.execute(query)
+            rows = cursor.fetchall()
+            cursor.close()
+            
+            # Retourner les données
+            print("success data reception")
+            print(rows)
+            return rows
+
+        except psycopg2.Error as error:
+            print("Erreur SQL: ", error)
+            return "Erreur lors de la récupération des données"
+
+    else:
+        return "Utilisateur non connecté"
+    
