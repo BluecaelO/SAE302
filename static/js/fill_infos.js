@@ -12,45 +12,37 @@ function fill_infos(value) {
 }
 
 
-function PassShow() {
-    const passwordToggle = document.querySelector('.js-password-toggle')
-    
-    passwordToggle.addEventListener('change', function() {
-        const password = document.querySelector('.js-password'),
-        passwordLabel = document.querySelector('.js-password-label')
-    
-        if (password.type === 'password') {
-        password.type = 'text'
-        passwordLabel.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'
-        } else {
-        password.type = 'password'
-        passwordLabel.innerHTML = '<i class="fa-solid fa-eye"></i>'
-        }
-    
-        password.focus()
-    })
+function togglePassword() {
+    const passwordToggle = document.querySelector('.js-password-toggle');
+    const password = document.querySelector('.js-password');
+    const passwordLabel = document.querySelector('.js-password-label');
+
+    if (password.type === 'password') {
+        password.type = 'text';
+        passwordLabel.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+    } else {
+        password.type = 'password';
+        passwordLabel.innerHTML = '<i class="fa-solid fa-eye"></i>';
+    }
+
+    password.focus();
 }
 
-  
 function copy(value) {
     var copyText = document.getElementById(value);
     copyText.select();
     document.execCommand("copy");
-  }
-
+}
 
 function copyPassword() {
-
-    const pass = document.getElementById("password")
-
-    pass.type = 'text'
+    const pass = document.getElementById("password");
+    pass.type = 'text';
 
     var copyText = document.getElementById("password");
     copyText.select();
     document.execCommand("copy");
 
-    pass.type = 'password'
-
+    pass.type = 'password';
 }
 
 

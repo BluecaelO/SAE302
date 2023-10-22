@@ -9,10 +9,10 @@ def connexion_db(user,pwd):
     global conn
 
     db_config = { 
-    'dbname': 'flask',
-    'user': user,
-    'password': pwd,
-    'host': '192.168.119.55',
+    'dbname': 'postgres',
+    'user': 'root',
+    'password': 'uKenNdraJHgv5i6Dm8X6',
+    'host': '127.0.0.1',
     'port': '5432'
     }
     try:

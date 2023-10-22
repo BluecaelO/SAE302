@@ -176,16 +176,19 @@ def edit_password():
     category_list = get_category_list()
     pass_info = None
 
-    if request.method=="GET":
+    if request.method == "GET":
         if "pass_name" in request.args:
-            print("l'identifiant du mot de pass est récupéré")
+            print("L'identifiant du mot de passe est récupéré")
             pass_info = get_password(escape(request.args.get("pass_name")))
+
+            if not pass_info:
+                return redirect(url_for("index"))
         else:
             flash("Pass name not found")
             return redirect(url_for("index"))
 
-    if request.method == "POST" and "pass_name" in request.form and "new_pass_name" in request.form and "new_password" in request.form and "new_pass_login" in request.form and "new_pass_url" in request.form and "new_pass_category" in request.form:
-        print("le formulaire à été prit en compte")
+    if request.method == "POST":
+        print("Le formulaire a été pris en compte")
         new_pass_name = escape(request.form.get('new_pass_name'))
         new_password = escape(request.form.get('new_password'))
         new_login = escape(request.form.get('new_pass_login'))
@@ -195,6 +198,9 @@ def edit_password():
         pass_info = get_password(pass_name)
         print(pass_info)
 
+        if not pass_info:
+                return redirect(url_for("index"))
+
         if not new_pass_name:
             flash("We need a password name")
             return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
@@ -203,9 +209,10 @@ def edit_password():
             flash("We need a password")
             return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
 
-        print(new_pass_name, new_password, new_login, new_site)
-        print("le nom du mot de passe actuelle= "+pass_name)
-        if not edit_password_to_db(new_pass_name, new_password, new_login, new_site, new_category, pass_name):
+        print(new_pass_name, new_login, new_password , new_site)
+        print("Le nom du mot de passe actuel = " + pass_name)
+
+        if not edit_password_to_db(new_pass_name, new_login,new_password ,new_site, new_category, pass_name):
             return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
 
         return redirect(url_for("index"))
@@ -214,4 +221,4 @@ def edit_password():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True,host="0.0.0.0")
