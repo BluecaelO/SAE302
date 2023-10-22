@@ -4,6 +4,8 @@ from flask import Flask, render_template,request,redirect,url_for,flash,session,
 from package.db_config import *
 ## autre module
 import secrets
+from  package.encryption import *
+
 
 app = Flask(__name__)
 
@@ -33,12 +35,18 @@ def login():
         close_db()
     session["login"] = False
     session["user"] = None
+    session["password"] = None 
+
     if request.method == "POST" and "user" in request.form and "password" in request.form:
+        if escape(request.form["user"]) == "postgres" or escape(request.form["user"]) =="root" : 
+            flash("Unable to connect to the db")
+            return redirect(url_for("login"))
         if connexion_db(escape(request.form["user"]), escape(request.form["password"])) == False:
             return redirect(url_for("login"))
         else:
             session["user"] = escape(request.form["user"])
             session["login"] = True
+            session["password"] = escape(request.form["password"])
             return redirect(url_for("index"))
     else:
         return render_template("login.html")
@@ -65,7 +73,7 @@ def register():
             flash("Passwords not corresponding")
             return render_template("register.html")
         
-        if connexion_db("root", "root") == False:
+        if connexion_db("postgres", "root") == False:
             return render_template("register.html")
         
         if creat_user(user, password1) == False:
@@ -92,6 +100,13 @@ def add_password():
         site = escape(request.form.get('pass_url'))
         fav = escape(request.form.get('pass_favorite'))
         
+        key = derive_key(session.get("password"))
+        password = encrypt_AES_CBC_256(key,password)
+        
+        
+
+
+
         if fav == "None":
             fav = "0"
 
@@ -125,8 +140,11 @@ def search():
         if request.method == "POST" and "value" in request.args:
             value = escape(request.args.get("value"))
             pwd_list = get_pwd_list_search(value)
+            
             return render_template("search.html", pwd_list=pwd_list)  
         
+
+
         elif request.method == "POST" and "fav" in request.args:
             fav = request.args.get("fav")
             pwd_list = get_pwd_list_search_fav()
@@ -155,7 +173,15 @@ def fill_infos():
         if request.method == "POST" and "pass_name" in request.args:
             pass_name = escape(request.args.get("pass_name"))
             pwd = get_password(pass_name)
-            return render_template("fill_infos.html", pwd=pwd)  
+            key = derive_key(session.get("password"))
+
+            tab=[] 
+            for i in pwd:
+                tab.append(i)
+
+
+            tab[2] = decrypt_AES_CBC_256(key,tab[2])
+            return render_template("fill_infos.html", pwd=tab)  
 
         else:
             return "no results"
@@ -192,6 +218,16 @@ def edit_password():
             print("L'identifiant du mot de passe est récupéré")
             pass_info = get_password(escape(request.args.get("pass_name")))
 
+            key = derive_key(session.get("password"))
+
+            tab=[] 
+            for i in pass_info:
+                tab.append(i)
+
+
+            tab[2] = decrypt_AES_CBC_256(key,tab[2])
+
+
             if not pass_info:
                 return redirect(url_for("index"))
         else:
@@ -209,6 +245,9 @@ def edit_password():
         pass_info = get_password(pass_name)
         print(pass_info)
 
+        key = derive_key(session.get("password"))
+        new_password = encrypt_AES_CBC_256(key,new_password)
+
         if new_fav == "None":
             new_fav = "0"
 
@@ -217,21 +256,21 @@ def edit_password():
 
         if not new_pass_name:
             flash("We need a password name")
-            return render_template("edit_password.html", pass_info=pass_info)
+            return render_template("edit_password.html", pass_info=tab)
 
         if not new_password:
             flash("We need a password")
-            return render_template("edit_password.html", pass_info=pass_info)
+            return render_template("edit_password.html", pass_info=tab)
 
         print(new_pass_name, new_login, new_password , new_site)
         print("Le nom du mot de passe actuel = " + pass_name)
 
         if not edit_password_to_db(new_pass_name, new_login,new_password ,new_site, new_fav, pass_name):
-            return render_template("edit_password.html", pass_info=pass_info)
+            return render_template("edit_password.html", pass_info=tab)
 
         return redirect(url_for("index"))
 
-    return render_template("edit_password.html", pass_info=pass_info)
+    return render_template("edit_password.html", pass_info=tab)
 
 
 @app.route("/del_password", methods=["POST"])
@@ -248,4 +287,4 @@ def del_password():
     return "Impossible d'afficher la table"
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0")
+    app.run(debug=True,host="0.0.0.0",port=8080,ssl_context=('/home/server/SAE302/cert.pem', '/home/server/SAE302/priv_key.pem'))
