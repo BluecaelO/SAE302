@@ -9,10 +9,10 @@ def connexion_db(user,pwd):
     global conn
 
     db_config = { 
-    'dbname': 'postgres',
-    'user': 'root',
-    'password': 'uKenNdraJHgv5i6Dm8X6',
-    'host': '127.0.0.1',
+    'dbname': 'flask',
+    'user': user,
+    'password': pwd,
+    'host': '192.168.119.55',
     'port': '5432'
     }
     try:
@@ -275,3 +275,25 @@ def get_password(value):
     else:
         return "Utilisateur non connecté"
     
+
+
+def edit_password_to_db(new_pass_name, new_login, new_password, new_site, new_category, pass_name):
+    print("deuxième phase")
+    print(pass_name, new_pass_name)
+    global conn
+    user = session.get('user')
+    if user:
+        try:
+            cursor = conn.cursor()
+
+            query = f"UPDATE public.{user + '_vault'} SET pass_name = '{new_pass_name}', login = '{new_login}', password = '{new_password}', site = '{new_site}', category = '{new_category}' WHERE pass_name = '{pass_name}'"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            print("Insertion réussie")
+            return True
+        
+        except psycopg2.Error as e:
+            flash("Error: we can't add the password")
+            print("Error SQL:", e)
+            return False
