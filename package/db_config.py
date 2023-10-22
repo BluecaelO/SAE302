@@ -305,7 +305,7 @@ def del_password_into_db(pass_name):
         try:
             cursor = conn.cursor()
 
-            query = f"DELETE FROM public.{user + '_vault'} WHERE pass_name = {pass_name};"
+            query = f"DELETE FROM public.{user + '_vault'} WHERE pass_name = '{pass_name}';"
             cursor.execute(query)
             conn.commit()
             cursor.close()

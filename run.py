@@ -238,10 +238,13 @@ def edit_password():
 def del_password():
     if session.get("login") == True:
         pass_name = escape(request.args.get("pass_name"))
-
+        
         del_password_into_db(pass_name)
-        return redirect(url_for("search"))
-
+        if request.method == "POST" and "pass_name"  in request.args:
+            value = ""
+            pwd_list = get_pwd_list_search(value)
+            return render_template("search.html", pwd_list=pwd_list) 
+        
     return "Impossible d'afficher la table"
 
 if __name__ == '__main__':
