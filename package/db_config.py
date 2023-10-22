@@ -10,8 +10,8 @@ def connexion_db(user,pwd):
 
     db_config = { 
     'dbname': 'postgres',
-    'user': 'root',
-    'password': 'uKenNdraJHgv5i6Dm8X6',
+    'user': user,
+    'password': pwd,
     'host': '127.0.0.1',
     'port': '5432'
     }
