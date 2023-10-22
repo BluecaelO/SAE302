@@ -48,17 +48,12 @@ def creat_user(user,password):
                 login VARCHAR(255),
                 password VARCHAR(255),
                 site VARCHAR(255),
-                category VARCHAR(255),
                 favorite BIT
             );
 
-            CREATE TABLE IF NOT EXISTS {user+"_category"} (
-                category VARCHAR(255) PRIMARY KEY
-            );
 
             ALTER TABLE IF EXISTS "{user + "_vault"}" OWNER to "{user}";
 
-            ALTER TABLE IF EXISTS "{user + "_category"}" OWNER to "{user}";
         '''
         # Execute la requête   
         cursor.execute(query)
@@ -116,7 +111,7 @@ def get_pwd_list():
         return "Utilisateur non connecté"
     
 
-def add_password_to_db(pass_name, password, login, site, categoty):
+def add_password_to_db(pass_name, password, login, site, fav):
     print("deuxième phase")
     global conn
     user = session.get('user')
@@ -134,7 +129,7 @@ def add_password_to_db(pass_name, password, login, site, categoty):
                 return False
             
             # Insérer les données dans la base de données
-            query = f"INSERT INTO public.{user + '_vault'} (pass_name, login, password, site, category) VALUES ('{pass_name}', '{login}', '{password}', '{site}', '{categoty}')"
+            query = f"INSERT INTO public.{user + '_vault'} (pass_name, login, password, site, favorite) VALUES ('{pass_name}', '{login}', '{password}', '{site}', '{fav}')"
             cursor.execute(query)
             conn.commit()
             cursor.close()
@@ -221,6 +216,8 @@ def get_pwd_list_search_category(category):
 #url de test
 #http://127.0.0.1:5000/search?value=Linkedin
 '''
+
+'''
 def get_category_list():
     global conn
     # Récupérer le nom de l'utilisateur à partir de la session
@@ -249,7 +246,7 @@ def get_category_list():
 
     else:
         return "Utilisateur non connecté"
-    
+'''  
 
 def get_password(value):
     global conn
@@ -259,7 +256,7 @@ def get_password(value):
     if user:
         try:
             cursor = conn.cursor()
-            query = f"SELECT pass_name, login,password,site,category,favorite FROM {user + '_vault'} WHERE pass_name = '{value}'"
+            query = f"SELECT pass_name, login,password,site,favorite FROM {user + '_vault'} WHERE pass_name = '{value}'"
 
             cursor.execute(query)
             rows = cursor.fetchone()
@@ -277,7 +274,7 @@ def get_password(value):
     
 
 
-def edit_password_to_db(new_pass_name, new_login, new_password, new_site, new_category, pass_name):
+def edit_password_to_db(new_pass_name, new_login, new_password, new_site,new_favorite, pass_name):
     print("deuxième phase")
     print(pass_name, new_pass_name)
     global conn
@@ -286,7 +283,7 @@ def edit_password_to_db(new_pass_name, new_login, new_password, new_site, new_ca
         try:
             cursor = conn.cursor()
 
-            query = f"UPDATE public.{user + '_vault'} SET pass_name = '{new_pass_name}', login = '{new_login}', password = '{new_password}', site = '{new_site}', category = '{new_category}' WHERE pass_name = '{pass_name}'"
+            query = f"UPDATE public.{user + '_vault'} SET pass_name = '{new_pass_name}', login = '{new_login}', password = '{new_password}', site = '{new_site}', favorite = '{new_favorite}' WHERE pass_name = '{pass_name}'"
             cursor.execute(query)
             conn.commit()
             cursor.close()
@@ -297,3 +294,27 @@ def edit_password_to_db(new_pass_name, new_login, new_password, new_site, new_ca
             flash("Error: we can't add the password")
             print("Error SQL:", e)
             return False
+        
+
+def del_password_into_db(pass_name):
+    global conn
+
+    user = session.get('user')
+
+    if user:
+        try:
+            cursor = conn.cursor()
+
+            query = f"DELETE FROM public.{user + '_vault'} WHERE pass_name = {pass_name};"
+            cursor.execute(query)
+            conn.commit()
+            cursor.close()
+            print("Suppression réussie")
+            return True
+        
+        except psycopg2.Error as e:
+            flash("Error: we can't delete the password")
+            print("Error SQL:", e)
+            return False    
+
+

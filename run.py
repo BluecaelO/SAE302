@@ -83,33 +83,43 @@ def add_password():
     if not session.get("login"):
         return redirect(url_for("login"))
     
-    category_list = get_category_list()
     
-    if request.method == "POST":
+    
+    if request.method == "POST": 
         pass_name = escape(request.form.get('pass_name'))
         password = escape(request.form.get('password'))
         login = escape(request.form.get('pass_login'))
         site = escape(request.form.get('pass_url'))
-        category = escape(request.form.get('pass_category'))
+        fav = escape(request.form.get('pass_favorite'))
         
+        if fav == "None":
+            fav = "0"
+
         if not pass_name:
             flash("We need a password name")
-            return render_template("add_password.html", category_list=category_list)
+            return render_template("add_password.html")
         
+        print("1")
+
         if not password:
             flash("We need a password")
-            return render_template("add_password.html", category_list=category_list)
+            return render_template("add_password.html")
+        
+        print("2")
         
         print(pass_name, password, login, site)
         
-        if add_password_to_db(pass_name, password, login, site, category):
+        if add_password_to_db(pass_name, password, login, site, fav):
+            print("Ok add password")
             return redirect(url_for("index"))
+            
         else:
-            return render_template("add_password.html", category_list=category_list)
-    
-    return render_template("add_password.html", category_list=category_list)
+            print("else render")
+            return render_template("add_password.html")
+    print("Return add_password.html")
+    return render_template("add_password.html")
 
-@app.route("/search",methods=["POST"])
+@app.route("/search",methods=["POST","GET"])
 def search():
     if session.get("login") == True:
         if request.method == "POST" and "value" in request.args:
@@ -173,7 +183,8 @@ def edit_password():
     if not session.get("login") and not session.get("user"):
         return redirect(url_for("login"))
 
-    category_list = get_category_list()
+    
+    
     pass_info = None
 
     if request.method == "GET":
@@ -193,32 +204,45 @@ def edit_password():
         new_password = escape(request.form.get('new_password'))
         new_login = escape(request.form.get('new_pass_login'))
         new_site = escape(request.form.get('new_pass_url'))
-        new_category = escape(request.form.get('new_pass_category'))
+        new_fav = escape(request.form.get('new_pass_favorite'))
         pass_name = escape(request.form.get("pass_name"))
         pass_info = get_password(pass_name)
         print(pass_info)
+
+        if new_fav == "None":
+            new_fav = "0"
 
         if not pass_info:
                 return redirect(url_for("index"))
 
         if not new_pass_name:
             flash("We need a password name")
-            return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
+            return render_template("edit_password.html", pass_info=pass_info)
 
         if not new_password:
             flash("We need a password")
-            return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
+            return render_template("edit_password.html", pass_info=pass_info)
 
         print(new_pass_name, new_login, new_password , new_site)
         print("Le nom du mot de passe actuel = " + pass_name)
 
-        if not edit_password_to_db(new_pass_name, new_login,new_password ,new_site, new_category, pass_name):
-            return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
+        if not edit_password_to_db(new_pass_name, new_login,new_password ,new_site, new_fav, pass_name):
+            return render_template("edit_password.html", pass_info=pass_info)
 
         return redirect(url_for("index"))
 
-    return render_template("edit_password.html", category_list=category_list, pass_info=pass_info)
+    return render_template("edit_password.html", pass_info=pass_info)
 
+
+@app.route("/del_password", methods=["POST"])
+def del_password():
+    if session.get("login") == True:
+        pass_name = escape(request.args.get("pass_name"))
+
+        del_password_into_db(pass_name)
+        return redirect(url_for("search"))
+
+    return "Impossible d'afficher la table"
 
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0")
