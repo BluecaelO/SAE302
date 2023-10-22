@@ -11,6 +11,7 @@ function fill_infos(value) {
     });
 }
 
+
 function PassShow() {
     const passwordToggle = document.querySelector('.js-password-toggle')
     
@@ -30,11 +31,27 @@ function PassShow() {
     })
 }
 
-
+  
 function copy(value) {
     var copyText = document.getElementById(value);
     copyText.select();
     document.execCommand("copy");
   }
+
+
+function copyPassword() {
+
+    const pass = document.getElementById("password")
+
+    pass.type = 'text'
+
+    var copyText = document.getElementById("password");
+    copyText.select();
+    document.execCommand("copy");
+
+    pass.type = 'password'
+
+}
+
 
 
