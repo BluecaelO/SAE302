@@ -8,7 +8,7 @@ import hashlib
 import os
 import hmac
 
-# Code de mystique de statck overflow 
+# Code de mystique de stack overflow 
 
 # Define a function to derive a key from a password using PBKDF2
 def derive_key(password):
