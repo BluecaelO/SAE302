@@ -28,12 +28,13 @@ function togglePassword() {
     password.focus();
 }
 
+// permet de copier l'input de notre choix en fonction de son id
 function copy(value) {
     var copyText = document.getElementById(value);
     copyText.select();
     document.execCommand("copy");
 }
-
+// les mots de passe ne pouvant pas être copié s'il son caché on les affiche, on les copie puis a les re cache
 function copyPassword() {
     const pass = document.getElementById("password");
     pass.type = 'text';
