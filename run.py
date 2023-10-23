@@ -396,4 +396,4 @@ def del_password():
     
 
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port=8080,ssl_context=('/home/server/SAE302/cert.pem', '/home/server/SAE302/priv_key.pem'))
+    app.run(debug=True,host="0.0.0.0",port=8080)
