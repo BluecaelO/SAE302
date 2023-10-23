@@ -9,4 +9,4 @@ function del_password(value) {
       });
     }
   }
-// Ici on utilsie de l'ajax pour changer de façon dynamique le contenu d'un div
+// Ici on utilse de l'ajax pour changer de façon dynamique le contenu d'un div
