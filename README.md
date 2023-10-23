@@ -1,5 +1,5 @@
 # BERRY VAULT
-Backend for a password manager in flask
+Backend and front-end for a password manager in flask
 
 Secured (almost) password manager with crypted vault in AES-256-CBC using PostgresSQL as database 
 
