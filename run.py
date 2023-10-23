@@ -392,7 +392,7 @@ def del_password():
             # Cela prmet d'éviter de recharger la page
         
     return "No results"
-    # ci l'utilisateur n'est pas loguer on affiche "no results"
+    # si l'utilisateur n'est pas loguer on affiche "no results"
     
 
 if __name__ == '__main__':
